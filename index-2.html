@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<title>БИЛЕТ — который нельзя купить</title>
+<style>
+:root{
+  --purple:#5522d8; --purple2:#6d2be7; --yellow:#ffd51b; --ink:#24134f;
+  --muted:#77718a; --line:#eeeaf7; --green:#18c978; --pink:#ff5aa5;
+  --bg:#fff; --soft:#f7f5fc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;padding-bottom:78px}
+.top{height:64px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid #f2eff8}
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:21px;line-height:1}
+.logo .ticket{font-size:25px;transform:rotate(-7deg)}
+.logo small{display:block;font-size:8px;font-weight:700;color:#8a8497;margin-top:3px;letter-spacing:.1px}
+.top-icons{display:flex;gap:14px;font-size:23px}
+main{max-width:760px;margin:0 auto;padding:0 16px}
+.screen{display:none}.screen.active{display:block}
+.hero{margin-top:14px;border-radius:25px;background:linear-gradient(135deg,#4b16bd,#7828ed);color:#fff;padding:22px 18px 0;overflow:hidden;position:relative;min-height:390px}
+.hero .pill{display:inline-flex;background:var(--yellow);color:#26144f;border-radius:10px;padding:8px 11px;font-size:12px;font-weight:900}
+.hero h1{font-size:35px;line-height:.98;letter-spacing:-1.8px;margin:20px 0 12px;max-width:560px}
+.hero h1 span{color:var(--yellow)}
+.hero p{font-size:14px;line-height:1.45;max-width:480px;margin:0 0 15px;color:#f4efff}
+.primary{border:0;background:var(--yellow);color:#211247;font-weight:900;border-radius:14px;padding:14px 20px}
+.hero-billy{display:block;width:205px;height:285px;object-fit:contain;margin:4px auto -28px;filter:drop-shadow(0 14px 18px #16063a55)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}
+.section-title h2{font-size:20px;margin:0}.section-title a{font-size:12px;color:var(--purple);font-weight:800}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.quick button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 5px;color:var(--ink);font-weight:800;font-size:11px}
+.quick i{display:block;font-style:normal;font-size:24px;margin-bottom:5px}
+.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:#fff;border:1px solid #eeeaf5;border-radius:19px;overflow:hidden;box-shadow:0 6px 20px #2a145d0b}
+.card-img{height:126px;background:linear-gradient(135deg,#f0ebff,#fff);display:flex;align-items:center;justify-content:center;font-size:55px}
+.card-body{padding:12px}
+.badge{display:inline-block;background:var(--green);color:#fff;border-radius:7px;padding:4px 7px;font-size:9px;font-weight:900}
+.card h3{font-size:14px;line-height:1.18;margin:8px 0 5px}
+.meta{font-size:10px;color:var(--muted);line-height:1.35}
+.price{font-size:20px;font-weight:900;margin:8px 0}
+.take{width:100%;border:0;background:var(--purple);color:#fff;border-radius:11px;padding:10px 8px;font-size:12px;font-weight:900}
+.categories{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.cat{border:0;border-radius:20px;min-height:126px;padding:15px;text-align:left;position:relative;overflow:hidden;color:var(--ink)}
+.cat .ico{font-size:43px}.cat b{display:block;font-size:15px;margin-top:7px}.cat span{font-size:10px;color:#625a75}
+.c1{background:#efe5ff}.c2{background:#dff8ff}.c3{background:#ffdfea}.c4{background:#fff0bf}.c5{background:#c9f3ff}.c6{background:#e9e3ff}.c7{background:#ffe1f1}.c8{background:#e2f6df}
+.detail-img{height:230px;border-radius:24px;background:linear-gradient(135deg,#3b0e9e,#822af0);display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;overflow:hidden}
+.detail{padding-top:14px}.back{border:0;background:#f5f2fb;border-radius:12px;padding:9px 13px;color:var(--ink);font-weight:800}
+.detail h1{font-size:25px;line-height:1.1;margin:14px 0 8px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{background:#f2eff9;border-radius:999px;padding:7px 9px;font-size:11px}
+.verify{margin:15px 0;background:#f4fff9;border:1px solid #c8f4df;border-radius:16px;padding:12px;font-size:12px}.verify b{display:block;margin-bottom:4px}
+.big-price{font-size:34px;font-weight:900;margin:14px 0}.big-cta{width:100%;border:0;background:var(--yellow);color:#24134f;border-radius:15px;padding:15px;font-weight:900;font-size:16px}
+.list .row{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.thumb{width:82px;height:72px;border-radius:13px;background:#f2edff;display:flex;align-items:center;justify-content:center;font-size:32px;flex:0 0 auto}
+.row h3{margin:0 0 4px;font-size:13px}.row .price{font-size:17px;margin:4px 0}.row button{margin-left:auto;border:0;background:var(--purple);color:#fff;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:900}
+.filters{display:flex;gap:7px;overflow:auto;padding:2px 0 8px}.filter{border:0;background:#f2eff9;color:var(--ink);border-radius:999px;padding:8px 13px;font-size:11px;white-space:nowrap}.filter.active{background:var(--purple);color:#fff}
+.profile-head{display:flex;align-items:center;gap:14px;padding:20px 0}.avatar{width:80px;height:80px;border-radius:50%;background:#efe7ff;display:flex;align-items:center;justify-content:center;font-size:52px}.profile-head h1{font-size:23px;margin:0 0 5px}.stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;padding:14px 5px;text-align:center}.stats b{display:block;font-size:18px}.stats span{font-size:9px;color:var(--muted)}.achievement{margin-top:14px;border:1px solid var(--line);border-radius:18px;padding:14px}.bar{height:9px;background:#ece8f5;border-radius:99px;overflow:hidden;margin:9px 0}.bar span{display:block;height:100%;width:54%;background:var(--purple)}
+.notice{background:linear-gradient(135deg,#5516cf,#7927e8);color:#fff;border-radius:21px;padding:18px;display:flex;gap:10px;align-items:center}.notice .billy-small{width:92px;height:112px;object-fit:contain;filter:drop-shadow(0 7px 10px #16063a33)}.notice h2{font-size:18px;margin:0 0 9px}.notice button{border:0;background:var(--yellow);border-radius:11px;padding:9px 13px;font-weight:900;font-size:11px}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:68px;background:#fff;border-top:1px solid #eeeaf5;display:flex;justify-content:center;z-index:30}
+.bottom-inner{width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr)}
+.bottom button{border:0;background:#fff;color:#77718a;font-size:9px;font-weight:700}.bottom button span{display:block;font-size:21px;margin-bottom:2px}.bottom button.active{color:var(--purple)}
+.toast{position:fixed;left:50%;bottom:82px;transform:translate(-50%,20px);background:#24134f;color:#fff;border-radius:13px;padding:11px 15px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:50;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:700px){
+  main{padding:0 24px}.hero{min-height:420px;padding:30px}.hero h1{font-size:45px}.hero-billy{width:245px}
+}
+@media(max-width:380px){main{padding:0 12px}.hero h1{font-size:31px}.quick{gap:6px}.quick button{font-size:10px}.offer-grid{gap:9px}.card-img{height:112px}}
+</style></head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="logo"><span class="ticket">🎟️</span><div>БИЛЕТ<small>который нельзя купить</small></div></div>
+  <div class="top-icons"><button style="border:0;background:none" onclick="show('Поиск скоро найдёт бесплатное 👀')">⌕</button><button style="border:0;background:none" onclick="go('notifications')">♧</button></div>
+</header>
+
+<main>
+<section class="screen active" id="home">
+  <div class="hero">
+    <span class="pill">🎁 ТЕБЕ ПОПАЛОСЬ!</span>
+    <h1>ЗАЧЕМ ПОКУПАТЬ,<br><span>ЕСЛИ МОЖНО ЗАБРАТЬ?</span></h1>
+    <p>Билли уже нашёл настоящие бесплатные предложения. Без выдумок — только проверенные ссылки.</p>
+    <button class="primary" onclick="go('surprise')">Погнали →</button>
+    <img class="hero-billy" src="assets/billy-3d.png" alt="Билли">
+  </div>
+  <div class="quick">
+    <button onclick="filterOffers('Бесплатно')"><i>🎁</i>Бесплатно</button>
+    <button onclick="filterOffers('Билеты')"><i>🎫</i>Билеты</button>
+    <button onclick="filterOffers('Онлайн')"><i>💻</i>Онлайн</button>
+    <button onclick="filterOffers('Детям')"><i>🎉</i>Детям</button>
+  </div>
+  <div class="section-title"><h2>Что можно забрать сейчас</h2><a onclick="go('list')">Смотреть все →</a></div>
+  <div class="offer-grid" id="homeOffers"></div>
+</section>
+
+<section class="screen" id="categories">
+  <div class="section-title"><h2>Категории</h2><a onclick="go('list')">Все →</a></div>
+  <div class="categories">
+    <button class="cat c1" onclick="filterOffers('Билеты')"><div class="ico">🎫</div><b>Билеты</b><span>концерты, события</span></button>
+    <button class="cat c2" onclick="filterOffers('Онлайн')"><div class="ico">💻</div><b>Онлайн</b><span>курсы, занятия</span></button>
+    <button class="cat c3" onclick="filterOffers('Подарки')"><div class="ico">🎁</div><b>Подарки</b><span>бонусы и бесплатное</span></button>
+    <button class="cat c4" onclick="filterOffers('Еда')"><div class="ico">☕</div><b>Еда</b><span>бесплатные активности</span></button>
+    <button class="cat c5" onclick="filterOffers('Детям')"><div class="ico">🧸</div><b>Детям</b><span>семейные активности</span></button>
+    <button class="cat c6" onclick="filterOffers('Путешествия')"><div class="ico">✈️</div><b>Путешествия</b><span>экскурсии и прогулки</span></button>
+    <button class="cat c7" onclick="filterOffers('Музеи')"><div class="ico">🖼️</div><b>Музеи</b><span>бесплатные посещения</span></button>
+    <button class="cat c8" onclick="filterOffers('Онлайн')"><div class="ico">💜</div><b>Разное</b><span>полезные бесплатности</span></button>
+  </div>
+</section>
+
+<section class="screen" id="list">
+  <div class="section-title"><h2>Бесплатные предложения</h2><a onclick="show('Все предложения проверяются перед публикацией')">⌕</a></div>
+  <div class="filters"><button class="filter active" onclick="setFilter('Все',this)">Все</button><button class="filter" onclick="setFilter('Сегодня',this)">Сегодня</button><button class="filter" onclick="setFilter('Популярные',this)">Популярные</button><button class="filter" onclick="setFilter('Детям',this)">Детям</button></div>
+  <div class="list" id="offerList"></div>
+</section>
+
+<section class="screen detail" id="detail">
+  <button class="back" onclick="go('list')">← Назад</button>
+  <div class="detail-img" id="dimg">🎁</div>
+  <span class="badge" style="margin-top:14px">БЕСПЛАТНО</span>
+  <h1 id="dtitle">Предложение</h1>
+  <div class="chips"><span class="chip" id="dmeta">🌐 Онлайн</span><span class="chip" id="ddate">Срок уточняется</span></div>
+  <div class="verify"><b>🕵️ Проверено Билли</b><span id="dverify">Источник и условия проверены.</span></div>
+  <p id="ddesc" style="font-size:13px;line-height:1.5;color:#625a75">Перед переходом проверьте актуальные условия организатора.</p>
+  <div class="big-price">0 ₽</div>
+  <button class="big-cta" id="dcta">ЗАБРАТЬ →</button>
+</section>
+
+<section class="screen" id="surprise">
+  <div class="section-title"><h2>ТЕБЕ ПОПАЛОСЬ! 🎉</h2></div>
+  <div class="hero" style="min-height:560px;text-align:center">
+    <span class="pill">🎁 БИЛЛИ НАШЁЛ</span>
+    <h1 style="font-size:34px">БЕСПЛАТНЫЙ<br><span>ДЕНЬ СПОРТА</span></h1>
+    <img src="assets/billy-3d.png" alt="Билли" style="width:170px;display:block;margin:6px auto -5px">
+    <p style="margin:auto">5 сентября в Лужниках: тренировки, спорт, игры и музыка. Вход бесплатный.</p>
+    <div style="font-size:29px;font-weight:900;margin:24px 0">0 ₽</div>
+    <button class="primary" style="width:100%" onclick="openOffer('sport-day')">ЗАБРАТЬ →</button>
+  </div>
+</section>
+
+<section class="screen" id="profile">
+  <div class="profile-head"><div class="avatar">🎟️</div><div><h1>Мой профиль</h1><span style="font-size:12px;color:var(--muted)">Ищет только бесплатное</span></div></div>
+  <div class="stats"><div><b>27</b><span>забрано</span></div><div><b>12 460 ₽</b><span>сэкономлено</span></div><div><b>18</b><span>в избранном</span></div></div>
+  <div class="achievement"><b>🏆 Охотник за бесплатным</b><div class="bar"><span></span></div><span style="font-size:11px;color:var(--muted)">27 из 50 предложений</span></div>
+</section>
+
+<section class="screen" id="notifications">
+  <div class="section-title"><h2>Уведомления</h2></div>
+  <div class="notice"><img class="billy-small" src="assets/billy-3d.png" alt="Билли"><div><h2>Эй! Есть новое<br><span style="color:var(--yellow)">БЕСПЛАТНОЕ</span> предложение!</h2><button onclick="go('detail')">Смотреть →</button></div></div>
+  <div class="section-title"><h2 style="font-size:16px">Сегодня</h2></div>
+  <div class="list"><div class="row"><div class="thumb">🏟️</div><div style="flex:1"><h3>День Московского спорта</h3><div class="meta">5 сентября · Лужники</div></div><b>0 ₽</b></div><div class="row"><div class="thumb">💪</div><div style="flex:1"><h3>«Русский богатырь»</h3><div class="meta">6 сентября · Лужники</div></div><b>0 ₽</b></div></div>
+</section>
+</main>
+
+<nav class="bottom"><div class="bottom-inner">
+<button class="active" data-go="home"><span>⌂</span>Главная</button>
+<button data-go="list"><span>▦</span>Каталог</button>
+<button data-go="list"><span>⌕</span>Поиск</button>
+<button data-go="list"><span>♡</span>Сохранённое</button>
+<button data-go="profile"><span>♙</span>Профиль</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+<script>
+let offers=[
+{id:'sport-day',title:'День Московского спорта',icon:'🏟️',category:'Билеты',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Большой бесплатный спортивный фестиваль: тренировки, соревнования, фан-встречи и музыка. На отдельные активности нужна регистрация.',url:'https://day.sport.mos.ru/',source:'Официальный сайт Дня Московского спорта'},
+{id:'sport-petanque',title:'Петанк — свободная игра',icon:'🥎',category:'Детям',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Мастер-классы и свободная игра для всех желающих. Регистрация не требуется.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-chess',title:'Шахматы — свободная игра',icon:'♟️',category:'Детям',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Свободная игра для всех желающих. В программе также есть турнир и сеанс одновременной игры.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-rubik',title:'Мастер-класс по Кубику Рубика',icon:'🧩',category:'Детям',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Мастер-класс по сборке Кубика Рубика, кубика 2×2 и пирамидки. Для участия в турнирах нужна регистрация.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-football',title:'Футбольная зона «Локомотив» и «Динамо»',icon:'⚽',category:'Детям',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Автограф-сессии, квиз, настольный футбол, дартс и мастер-классы по созданию значков и кастомизации.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-bmx',title:'Экстрим-парк: скейт, самокат и BMX',icon:'🛹',category:'Билеты',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Открытая площадка для катания и тренировок. Регистрация на месте.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-zumba',title:'Зумба',icon:'💃',category:'Билеты',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Открытые занятия по зумбе. На отдельные занятия требуется регистрация.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'sport-kids',title:'Детская зона Дня Московского спорта',icon:'🧸',category:'Детям',meta:'📍 Лужники · Москва',date:'5 сентября 2026',desc:'Семейная спортивная зона в составе большого бесплатного фестиваля.',url:'https://day.sport.mos.ru/',source:'Официальная программа Дня Московского спорта'},
+{id:'bogatyr',title:'Фестиваль «Русский богатырь»',icon:'💪',category:'Билеты',meta:'📍 Лужники · Москва',date:'6 сентября 2026',desc:'Бесплатный фестиваль силы, спорта и развлечений для всей семьи. 12 тематических площадок, шоу и интерактивы.',url:'https://bogatyr.sport.mos.ru/',source:'Официальный сайт фестиваля'},
+{id:'city-day',title:'День города Москвы — бесплатная программа',icon:'🎉',category:'Билеты',meta:'📍 Москва',date:'5–6 сентября 2026',desc:'Бесплатные концерты, спектакли, экскурсии, семейные и спортивные события по городу.',url:'https://bilet.mos.ru/den-goroda/',source:'Официальный портал Мосбилет'},
+{id:'yardoteka',title:'Фестиваль «Дворотека»',icon:'🎶',category:'Детям',meta:'📍 Музей Москвы',date:'5 сентября 2026',desc:'Бесплатное событие в программе Дня города. Перед визитом проверьте расписание и условия на странице события.',url:'https://bilet.mos.ru/den-goroda/',source:'Официальный портал Мосбилет'},
+{id:'moscow-week',title:'Московская музейная неделя',icon:'🖼️',category:'Музеи',meta:'📍 Москва',date:'14–20 сентября 2026',desc:'Каждую третью неделю месяца участвующие музеи Москвы можно посетить бесплатно. Для многих площадок нужен электронный билет.',url:'https://bilet.mos.ru/muzeynaya-nedelya/',source:'Официальный портал Мосбилет'},
+{id:'netology',title:'Бесплатные курсы и лекции Нетологии',icon:'📚',category:'Онлайн',meta:'🌐 Онлайн',date:'Доступно сейчас',desc:'На странице собраны бесплатные курсы, лекции и полезные материалы по разным направлениям.',url:'https://netology.ru/free',source:'Официальный сайт Нетологии'},
+{id:'netology-marketing',title:'Бесплатные занятия по маркетингу',icon:'📈',category:'Онлайн',meta:'🌐 Онлайн',date:'Доступно сейчас',desc:'Бесплатные материалы и занятия по маркетингу, включая программы для новичков.',url:'https://netology.ru/free/marketing',source:'Официальный сайт Нетологии'},
+{id:'netology-web',title:'Бесплатные вебинары Нетологии',icon:'💻',category:'Онлайн',meta:'🌐 Онлайн',date:'Доступно сейчас',desc:'Бесплатные вебинары о карьере, трендах рынка труда и новых технологиях.',url:'https://netology.ru/free-web',source:'Официальный сайт Нетологии'},
+{id:'netology-async',title:'Бесплатные курсы в свободном темпе',icon:'🎓',category:'Онлайн',meta:'🌐 Онлайн',date:'Доступно сейчас',desc:'Подборка бесплатных курсов и материалов, которые можно проходить в удобном темпе.',url:'https://netology.ru/free/async',source:'Официальный сайт Нетологии'}
+];
+const FALLBACK_OFFERS = offers;
+async function loadOffers(){
+  try{
+    const r=await fetch('data/offers.json',{cache:'no-store'});
+    if(!r.ok) throw new Error('feed');
+    const feed=await r.json();
+    const now=Date.now();
+    offers=(feed.offers||[]).filter(o=>o.status!=='expired' && (!o.expiresAt || new Date(o.expiresAt).getTime()>=now));
+    if(!offers.length) offers=FALLBACK_OFFERS;
+    window.BILET_FEED_UPDATED=feed.updatedAt;
+    renderHome(); renderList();
+    show('Билли обновил предложения ✨');
+  }catch(e){
+    offers=FALLBACK_OFFERS.filter(o=>!o.expiresAt || new Date(o.expiresAt).getTime()>=Date.now());
+    renderHome(); renderList();
+  }
+}
+let currentFilter='Все';
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.go===id || (id==='categories'&&b.dataset.go==='list')));window.scrollTo({top:0,behavior:'smooth'});if(id==='list')renderList();}
+function card(o){return `<article class="card"><div class="card-img">${o.icon}</div><div class="card-body"><span class="badge">БЕСПЛАТНО</span><h3>${o.title}</h3><div class="meta">${o.meta}</div><div class="price">0 ₽</div><button class="take" onclick="openOffer('${o.id}')">ЗАБРАТЬ</button></div></article>`}
+function row(o){return `<div class="row"><div class="thumb">${o.icon}</div><div style="flex:1"><h3>${o.title}</h3><div class="meta">${o.meta}<br>${o.date}</div><div class="price">0 ₽</div></div><button onclick="openOffer('${o.id}')">Забрать</button></div>`}
+function renderHome(){document.getElementById('homeOffers').innerHTML=offers.slice(0,4).map(card).join('');}
+function renderList(){let arr=offers;if(currentFilter==='Детям')arr=offers.filter(o=>o.category==='Детям');if(currentFilter==='Сегодня')arr=offers.filter(o=>o.date.includes('5 сентября')||o.date.includes('6 сентября')||o.date==='Доступно сейчас');if(currentFilter==='Популярные')arr=offers.slice(0,8);document.getElementById('offerList').innerHTML=arr.map(row).join('');}
+function setFilter(f,b){currentFilter=f;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList();}
+function filterOffers(category){let arr=offers.filter(o=>o.category===category);if(category==='Бесплатно')arr=offers;document.getElementById('offerList').innerHTML=arr.map(row).join('');go('list');}
+function openOffer(id){const o=offers.find(x=>x.id===id);if(!o)return;document.getElementById('dtitle').textContent=o.title;document.getElementById('dimg').textContent=o.icon;document.getElementById('dmeta').textContent=o.meta;document.getElementById('ddate').textContent=o.date;document.getElementById('ddesc').textContent=o.desc;const checked = o.checkedAt ? new Date(o.checkedAt+'T12:00:00').toLocaleDateString('ru-RU') : new Date().toLocaleDateString('ru-RU'); document.getElementById('dverify').textContent=o.source+' · проверено '+checked+'.';document.getElementById('dcta').onclick=()=>window.open(o.url,'_blank','noopener');go('detail');}
+function show(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove('show'),2400)}
+document.querySelectorAll('.bottom button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+renderHome();renderList();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+loadOffers();
+setInterval(loadOffers, 30*60*1000);
+</script>
+</body></html>
